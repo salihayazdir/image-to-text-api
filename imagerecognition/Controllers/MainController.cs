@@ -49,9 +49,6 @@ public class MainController : ControllerBase
 
         Image image1 = Image.FromUri(image);
 
-        //Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", "/Users/salihayazdir/Downloads/mystic-advice-337814-c9223049dcbe.json");
-        //ImageAnnotatorClient client = ImageAnnotatorClient.Create();
-
         string visionCredentials = _appconfig.GetVisionCredentials();
         var credential = GoogleCredential.FromJson(visionCredentials);
         var client = new ImageAnnotatorClientBuilder
@@ -65,7 +62,6 @@ public class MainController : ControllerBase
             IReadOnlyList<EntityAnnotation> textAnnotations = client.DetectText(image1);
             foreach (EntityAnnotation text in textAnnotations)
             {
-                Console.WriteLine($"//////////////////////////////////////////: {text.Description}");
                 response.textContent.Add(text.Description);
                 response.success = true;
             }
@@ -82,25 +78,3 @@ public class MainController : ControllerBase
         return Ok(serializedResponse);
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-//[HttpGet(Name = "GetWeatherForecast")]
-//public IEnumerable<WeatherForecast> Get()
-//{
-//    return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-//    {
-//        Date = DateTime.Now.AddDays(index),
-//        TemperatureC = Random.Shared.Next(-20, 55)
-//        //Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-//    })
-//    .ToArray();
-//}
